@@ -1,0 +1,121 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+.main{
+    background-image: url("../images/login-bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh; /* Use viewport height */
+    width: 100%;
+    margin-left: 10px;
+    backdrop-filter: blur(80px);
+    -webkit-backdrop-filter: blur(8px); 
+    /* For cross-browser support */
+}
+.intro{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+    z-index: 1;
+}
+
+.intro h3{
+    font-size: 30px;
+    margin-bottom: 10px;
+    z-index: 1;
+    color: rgb(209, 82, 216);
+    margin-top: 150px;
+}
+.intro p{
+    margin-top: 0px;
+    font-size: 15px;
+    margin-bottom: -50px;
+    color:rgb(68, 67, 67);
+    z-index: 1;
+}
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh; /* Adjust as needed */
+    z-index: 1;
+  }
+  
+  .form {
+    width: 300px; /* Adjust as needed */
+    padding: 20px;
+    background-color: aliceblue;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    z-index: 1;
+  }
+  #button {
+    background-color: rgb(111, 0, 128);
+    color: white;
+    height: 40px;
+    width: 300px;
+    font-weight: bold;
+    border: 3px solid #000;
+    z-index: 1;
+    text-decoration: none;
+  }
+  #button :hover {
+    color:black;
+    background-color: rgb(163, 7, 187);
+    z-index: 1;
+
+  }
+  input {
+    height: 25px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    z-index: 1;
+    background-color: rgb(230, 229, 229);
+  }
+  .name-inputs {
+    display: inline-flex;
+    justify-content: space-between;
+    margin-bottom: -8px; /* Add some spacing between name inputs and the rest of the form */
+    z-index: 1;
+  }
+  
+  /* Add space between First name and Surname */
+  .name-inputs input {
+    width: 100%; /* Adjust as needed */
+    z-index: 1;
+  }
+  
+  /* Add vertical space between First name, Email, and Password */
+  .form input:not([type="button"]), .form p {
+    margin-bottom: 10px; /* Adjust as needed */
+    z-index: 1;
+  }
+  
+  .button-container {
+    margin-top: auto; /* Push the button to the bottom */
+    z-index: 1;
+  }
+
+  .logo-end{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -1px;
+    color: rgb(0, 0, 0);
+    z-index: 1;
+  }
+  .flex-column > * {
+    margin-top: 1px;
+  }
+  #or{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
