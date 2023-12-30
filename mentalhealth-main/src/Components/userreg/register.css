@@ -1,37 +1,46 @@
-html, body {
-    height: 100%;
-    margin: 0;
-}
+
 .main2{
     background-image: url("../images/login-bg.jpg");
-    background-repeat: no-repeat;
+    background-blend-mode:screen;
+    background-size: cover;
     background-position: center;
     height: 100vh; /* Use viewport height */
     width: 100%;
-    margin-left: 10px;
     backdrop-filter: blur(80px);
+    margin-top: -10px;
     -webkit-backdrop-filter: blur(8px); /* For cross-browser support */
 }
-.intro{
+.intro2{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
     z-index: 1;
 }
-
+.intro2{
+  background-color: purple;
+  width: 22%;
+  height: 15%;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  
+  padding-bottom: 1px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
 .intro2 h3{
     font-size: 30px;
-    margin-bottom:100px;
     z-index: 1;
-    color: red
+    color: rgb(0, 0, 0)
 }
 .intro2 p{
     margin-top: 0px;
     font-size: 15px;
     margin-bottom: 30px;
-    color:rgb(68, 67, 67);
+    color:rgb(0, 0, 0);
     z-index: 1;
 }
 .form-container2 {

@@ -27,7 +27,7 @@ html, body {
     margin-bottom: 10px;
     z-index: 1;
     color: rgb(209, 82, 216);
-    margin-top: 150px;
+    
 }
 .intro p{
     margin-top: 0px;
@@ -53,6 +53,9 @@ html, body {
     display: flex;
     flex-direction: column; /* Stack elements vertically */
     z-index: 1;
+  }
+  .usertype {
+    margin-bottom: 10px;
   }
   #button {
     background-color: rgb(111, 0, 128);

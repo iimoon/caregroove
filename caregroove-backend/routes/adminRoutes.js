@@ -7,15 +7,20 @@ const UserModel = require("../model/User")
 router.post("/newadmin", async (req, res) => {
   try {
     console.log("Received data:", req.body);
-    const { user, email, password } = req.body;
-    if (!user || !email || !password) {
+    const { fname, sname, email, password } = req.body;
+    if (!fname || !sname || !email || !password) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    const newAdmin = new AdminModel({ user, email, password });
-    await newAdmin.save();
+    const oldUser = await AdminModel.findOne({ email, password });
 
-    res.status(201).json({ message: "Admin record saved successfully", data: newAdmin });
+    if (oldUser) {
+      console.log("Existing user:", oldUser);
+      return res.status(400).json({ error: "User exists" });
+    }
+
+    const newAdmin = new AdminModel({ fname, sname, email, password });
+    await newAdmin.save();
     res.send("Admin account registered!");
   } catch (error) {
     console.error("Error saving admin record:", error);
@@ -25,6 +30,7 @@ router.post("/newadmin", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
 router.post("/login", async(req,res)=>{
     try{
         const {email,password} = req.body;

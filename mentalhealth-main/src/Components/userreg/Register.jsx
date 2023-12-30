@@ -51,7 +51,7 @@ const Register = () => {
   return (
     <div className="main2">
       <div className="intro2">
-        <h3>Sign up</h3>
+        <h3>Register to get started!</h3>
         <p>It's quick and easy.</p>
       </div>
       <div className="form-container2">

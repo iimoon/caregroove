@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './login.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
+  const naviagte = useNavigate();
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
@@ -25,6 +28,8 @@ const Login = () => {
       })
       .then((response) => {
         // Handle successful login
+        const adminpath = '/adminpanel'
+        naviagte(adminpath);
         console.log(response.data.message);
         console.log(response.data.data); // This will contain user/admin data
       })
@@ -54,7 +59,7 @@ const Login = () => {
             placeholder="Password"
             onChange={inputHandler}
           />
-          <select name="usertype" onChange={inputHandler}>
+          <select className='usertype' name="usertype" onChange={inputHandler}>
             <option value="" disabled selected>
               Select UserType
             </option>

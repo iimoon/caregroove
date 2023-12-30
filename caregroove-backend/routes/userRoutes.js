@@ -6,15 +6,15 @@ const UserModel = require("../model/User");
 router.post("/newuser", async (req, res) => {
   try {
     console.log("Received data:", req.body);
-    const { fname, lname, email, password, date, gender } = req.body;
+    const { fname, sname, email, password, date, gender } = req.body;
 
-    if (!fname || !lname || !email || !password || !date || !gender) {
+    if (!fname || !sname || !email || !password || !date || !gender) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
     const newUser = new UserModel({
       fname,
-      lname,
+      sname,
       email,
       password,
       date,
@@ -38,7 +38,7 @@ router.post("/newuser", async (req, res) => {
 });
 
 //User login
-router.post("/userlogin", async (req, res) => {
+router.post("/login", async (req, res) => {
     try {
       const { email, password } = req.body;
       if (!email || !password) {
