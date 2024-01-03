@@ -1,6 +1,6 @@
-// AdminPage.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, AppBar, Toolbar, Typography } from '@mui/material';
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -31,16 +31,40 @@ const AdminPage = () => {
 
   return (
     <div>
-      <h2>Admin Dashboard</h2>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6">Admin Dashboard</Typography>
+          <Button color="inherit">User Details</Button>
+        </Toolbar>
+      </AppBar>
+
       <h3>Registered Users</h3>
-      <ul>
-        {users.map((user) => (
-          <li key={user._id}>
-            {user.fname} {user.lname} - {user.email}
-            <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>First Name</TableCell>
+              <TableCell>Last Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Action</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users.map((user) => (
+              <TableRow key={user._id}>
+                <TableCell>{user.fname}</TableCell>
+                <TableCell>{user.lname}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>
+                  <Button variant="outlined" onClick={() => handleDeleteUser(user._id)}>
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

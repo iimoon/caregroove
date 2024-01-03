@@ -5,12 +5,11 @@ import Register from './Components/userreg/Register';
 import Adminlog from './Components/adminlog/Adminlog';
 import Login from './Components/loginpage/Login';
 import AdminPage from './Components/adminlog/AdminPage';
-import { NextUIProvider } from '@nextui-org/react';
+// import { NextUIProvider } from '@nextui-org/react';
 
 function App() {
   return (
     <div className="App">
-      <NextUIProvider>
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<Home />} />
@@ -20,7 +19,6 @@ function App() {
             <Route path='/adminpanel' element={<AdminPage />} />
           </Routes>
         </BrowserRouter>
-      </NextUIProvider>
     </div>
   );
 }
