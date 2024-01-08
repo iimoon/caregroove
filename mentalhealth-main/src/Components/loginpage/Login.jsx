@@ -28,6 +28,7 @@ const Login = () => {
       })
       .then((response) => {
         // Handle successful login
+        localStorage.setItem('jwtToken', response.data.token);
         const adminpath = '/adminpanel'
         naviagte(adminpath);
         console.log(response.data.message);
@@ -35,7 +36,7 @@ const Login = () => {
       })
       .catch((error) => {
         // Handle login error
-        console.error(error.response.data.message);
+        console.log("Error:",error);
       });
   };
 
