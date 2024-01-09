@@ -12,6 +12,8 @@ const Login = () => {
     usertype: '', // Add usertype field
   });
 
+
+
   const inputHandler = (e) => {
     const { name, value } = e.target;
     setLoginData((prevData) => ({ ...prevData, [name]: value }));

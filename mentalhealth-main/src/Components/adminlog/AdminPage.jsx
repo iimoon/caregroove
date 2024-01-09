@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
+import {useNavigate} from 'react-router-dom'
 import axios from "axios";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, AppBar, Toolbar, Typography } from '@mui/material';
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
+
+useEffect(()=>{
+ const valid = localstorage.getItem('token')
+ if (!valid){
+useNavigate('/')
+}
 
   useEffect(() => {
     // Fetch the list of users when the component mounts
