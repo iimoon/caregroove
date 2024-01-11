@@ -3,16 +3,15 @@ import axios from 'axios';
 import './login.css';
 import { useNavigate } from 'react-router-dom';
 
-
 const Login = () => {
-  const naviagte = useNavigate();
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
     usertype: '', // Add usertype field
   });
 
-
+  const [notification, setNotification] = useState(null);
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -22,7 +21,9 @@ const Login = () => {
   const loginHandler = () => {
     // Assuming you have separate routes for admin and user login
     const loginRoute =
-      loginData.usertype === 'admin' ? 'http://localhost:3007/admin/login' : 'http://localhost:3007/user/login';
+      loginData.usertype === 'admin'
+        ? 'http://localhost:3007/admin/login'
+        : 'http://localhost:3007/user/login';
 
     axios
       .post(loginRoute, loginData, {
@@ -30,15 +31,20 @@ const Login = () => {
       })
       .then((response) => {
         // Handle successful login
-        localStorage.setItem('jwtToken', response.data.token);
-        const adminpath = '/adminpanel'
-        naviagte(adminpath);
+        const { token } = response.data;
+        localStorage.setItem('jwtToken', token);
+        const adminpath = '/admin';
+        navigate(adminpath);
         console.log(response.data.message);
         console.log(response.data.data); // This will contain user/admin data
       })
       .catch((error) => {
         // Handle login error
-        console.log("Error:",error);
+        console.log('Error:', error);
+        setNotification('Invalid credentials. Please try again.'); // Set the error notification
+        setTimeout(() => {
+          setNotification(null); // Clear the notification after a few seconds
+        }, 5000);
       });
   };
 
@@ -50,19 +56,9 @@ const Login = () => {
       </div>
       <div className="form-container">
         <div className="form">
-          <input
-            type="text"
-            name="email"
-            placeholder="Email address"
-            onChange={inputHandler}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={inputHandler}
-          />
-          <select className='usertype' name="usertype" onChange={inputHandler}>
+          <input type="text" name="email" placeholder="Email address" onChange={inputHandler} />
+          <input type="password" name="password" placeholder="Password" onChange={inputHandler} />
+          <select className="usertype" name="usertype" onChange={inputHandler}>
             <option value="" disabled selected>
               Select UserType
             </option>
@@ -75,6 +71,9 @@ const Login = () => {
       <div className="logo-end">
         <h2>CareGroove</h2>
         <p>Your mental health assistant.</p>
+      </div>
+      <div className="notification">
+        {notification && <p>{notification}</p>}
       </div>
     </div>
   );

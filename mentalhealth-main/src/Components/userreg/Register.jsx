@@ -3,7 +3,7 @@ import "./register.css";
 import axios from "axios";
 
 const Register = () => {
-  const baseurl = "http://localhost:3007/user/newuser";
+  const baseUrl = "http://localhost:3007/user/newuser";
 
   const [formData, setFormData] = useState({
     fname: "",
@@ -12,51 +12,62 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     date: "",
-    gender: "", // Added gender field
+    gender: "",
   });
 
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [notification, setNotification] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((formData) => ({ ...formData, [name]: value }));
-  
-    // Check for password match and update state
+
     if (name === "password" || name === "confirmPassword") {
       setPasswordsMatch(formData.password === value);
     }
   };
 
-  const handleSubmit = () => {
-    console.log("Formdata:", formData);
+  const handleSubmit = async () => {
     if (!passwordsMatch) {
-      alert("Passwords don't match");
-    } else {
-      // Exclude confirmPassword from the data sent to the server
+      setNotification("Passwords don't match");
+      return;
+    }
+
+    try {
       const { confirmPassword, ...dataToSend } = formData;
-  
-      axios
-        .post(`${baseurl}`, { ...dataToSend, usertype: "user" })
-        .then(() => {
-          alert("User registration successful!");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      console.log('Submit clicked', dataToSend);
+
+      const response = await axios.post(`${baseUrl}`, { ...dataToSend, usertype: "user" });
+
+      if (response.data && response.data.error === "User exists") {
+        setNotification("User with this email already exists");
+      } else {
+        setNotification("User registration successful!");
+      }
+
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
+    } catch (err) {
+      console.error("Axios error:", err);
+      console.error("Axios response:", err.response);
+
+      if (err.response && err.response.data && err.response.data.error === "User exists") {
+        setNotification("User with this email already exists. Please use a different email.");
+      } else {
+        setNotification("An error occurred during registration");
+      }
     }
   };
-  
 
   return (
-    <div className="main2">
-      <div className="intro2">
+    <div className="register-container">
+      <div className="register-intro">
         <h3>Register to get started!</h3>
         <p>It's quick and easy.</p>
       </div>
-      <div className="form-container2">
-        <div className="form2">
-          <div className="name-inputs2">
+      <div className="register-form-container">
+        <div className="register-form">
+          <div className="register-name-inputs">
             <input
               type="text"
               name="fname"
@@ -121,14 +132,18 @@ const Register = () => {
             <p style={{ color: "red" }}>Passwords don't match</p>
           )}
 
-          <input type="button" id="button" value="Submit" onClick={handleSubmit} />
+          <div className="register-notification">
+            {notification && <p>{notification}</p>}
+          </div>
+
+          <input type="button" id="register-button" value="Submit" onClick={handleSubmit} />
           <small>
             &#x1F6C8; By clicking on submit, you are agreeing with the{" "}
             <a href="/">terms and services</a> of our product.
           </small>
         </div>
       </div>
-      <div className="logo-end2">
+      <div className="register-logo-end">
         <h2>CareGroove</h2>
         <p>Your mental health assistant.</p>
       </div>
