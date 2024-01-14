@@ -1,0 +1,10 @@
+.blog-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+  --jd-color-icon: #bd10e0;
+}
+.blog-container Typography {
+  margin-bottom: 10px;
+}
