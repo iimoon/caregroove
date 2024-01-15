@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const AdminModel = require("../model/Admin");
 const UserModel = require("../model/User")
+const Blog = require('../model/AdminBlog'); // Adjust the path accordingly
 const Post = require('../model/AdminPost'); // Import the Post model
 const multer = require('multer');
 const path = require('path');
@@ -226,6 +227,61 @@ router.delete("/deletetherapist/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting user:", error);
     res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+//Blog routes
+//Get all blogs
+router.get('/viewblogs', async (req, res) => {
+  try {
+    const blogs = await Blog.find();
+    res.json(blogs);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+//Post new blog
+router.post('/addblog', async (req, res) => {
+  const { title, content, category } = req.body;
+  try {
+    const newBlog = new Blog({ title, content, category });
+    await newBlog.save();
+    res.json(newBlog);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+// PUT (Update) a blog by ID
+router.put('/blogs/:id', async (req, res) => {
+  const { title, content, category } = req.body;
+  const blogId = req.params.id;
+  
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(blogId, { title, content, category }, { new: true });
+    
+    if (!updatedBlog) {
+      return res.status(404).json({ error: 'Blog not found' });
+    }
+    
+    res.json(updatedBlog);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+// DELETE a blog by ID
+router.delete('/blogs/:id', async (req, res) => {
+  const blogId = req.params.id;
+  
+  try {
+    const deletedBlog = await Blog.findByIdAndDelete(blogId);
+    
+    if (!deletedBlog) {
+      return res.status(404).json({ error: 'Blog not found' });
+    }
+    
+    res.json(deletedBlog);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 module.exports = router;

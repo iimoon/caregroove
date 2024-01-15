@@ -28,8 +28,9 @@ function App() {
             <Route path='/admin/posts' element={<AdminPost />} />
             <Route path='/admin/viewposts' element={<AdminViewPost/>}/>
             <Route path='/admin/blog' element={<AdminBlog />} />
+            <Route path='/admin/viewblog' element={<AdminBlogView/>}/>
             <Route path='/admin/bookings' element={<AdminBookings/>}/>
-            <Route path='/admin/blogview' element={<AdminBlogView />} />
+            <Route path='/admin/viewblogs' element={<AdminBlogView />} />
             <Route path='/admin/therapist' element={<AdminAddtherapist/>} />
             <Route path='/admin/viewtherapist' element={<AdminTherapists/>}/>
           </Route>
