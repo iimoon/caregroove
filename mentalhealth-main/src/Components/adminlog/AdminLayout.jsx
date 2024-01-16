@@ -59,7 +59,7 @@ function AdminLayout() {
           { path: '/users', icon: <Person />, text: 'User Details' },
           { path: '/posts', icon: <InsertDriveFileIcon />, text: 'Posts' },
           { path: '/blog', icon: <BookIcon />, text: 'Blog' },
-          { path: '/blogview', icon: <PreviewIcon />, text: 'View Blog' },
+          { path: '/viewblogs', icon: <PreviewIcon />, text: 'View Blog' },
           { path: '/bookings', icon: <ListAltIcon />, text: 'Bookings' },
           { path: '/therapist', icon: <PsychologyIcon />, text: 'Therapists' },
         ].map((item) => (

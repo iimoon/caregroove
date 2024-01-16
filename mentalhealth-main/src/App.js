@@ -28,6 +28,7 @@ function App() {
             <Route path='/admin/posts' element={<AdminPost />} />
             <Route path='/admin/viewposts' element={<AdminViewPost/>}/>
             <Route path='/admin/blog' element={<AdminBlog />} />
+            <Route path='/admin/blog/:id' element={<AdminBlog />} />
             <Route path='/admin/viewblog' element={<AdminBlogView/>}/>
             <Route path='/admin/bookings' element={<AdminBookings/>}/>
             <Route path='/admin/viewblogs' element={<AdminBlogView />} />

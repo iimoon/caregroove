@@ -3,33 +3,51 @@ import axios from 'axios';
 import JoditEditor from 'jodit-react';
 import { Button, TextField, Typography } from '@mui/material';
 import './styles/AdminBlog.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AdminBlog = () => {
-  const baseUrl = 'http://localhost:3007/admin/addblog';
   const editor = useRef(null);
   const navigate = useNavigate();
+  const { blogId } = useParams(); // Extract blog ID from URL
   const [content, setContent] = useState("");
   const [categories, setCategories] = useState([]);
   const [postTitle, setPostTitle] = useState("");
   const [postCategory, setPostCategory] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     // Fetch categories on component mount
-    axios.get('/api/categories')
+    axios.get(`http://localhost:3007/admin/${isEditing ? 'blog/:id' : 'addblog'}`)
       .then(response => setCategories(response.data))
       .catch(error => console.error("Error fetching categories:", error));
-  }, []);
+
+    // Fetch blog data if editing
+    if (blogId) {
+      axios.get(`http://localhost:3007/admin/${isEditing ? `blog/${blogId}` : 'addblog'}`)
+        .then(response => {
+          setPostTitle(response.data.title);
+          setContent(response.data.content);
+          setPostCategory(response.data.category);
+          setIsEditing(true);
+        })
+        .catch(error => console.error("Error fetching blog:", error));
+    }
+  }, [blogId]);
 
   const handleUpload = () => {
-    // Perform upload logic here using postTitle, content, and postCategory
-    axios.post(baseUrl, {
+    const method = isEditing ? 'put' : 'post'; // Adjust for update or create
+    const url = isEditing ? `http://localhost:3007/admin/blog/${blogId}` : 'http://localhost:3007/admin/addblog';
+
+    axios[method](url, {
       title: postTitle,
       content: content,
       category: postCategory,
     })
-      .then(response => console.log("Upload successful:", response.data))
-      .catch(error => console.error("Error uploading blog:", error));
+      .then(response => {
+        console.log("Upload/Update successful:", response.data);
+        navigate('/admin/viewblogs'); // Redirect to view after success
+      })
+      .catch(error => console.error("Error uploading/updating blog:", error));
   };
 
   const handlenavigation = () =>{
