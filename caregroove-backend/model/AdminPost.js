@@ -12,7 +12,8 @@ const postSchema = new mongoose.Schema({
   imageType: {
     type: String,
     required: true,
-  },
+  }
+,
   createdBy: {
     type: String,
     default: '  ', // Default value for posts created via admin panel

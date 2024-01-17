@@ -29,6 +29,7 @@ const AdminViewPost = () => {
       try {
         const response = await axios.get(baseurl);
         setPosts(response.data);
+        console.log(response.data)
       } catch (error) {
         setError(error.message);
       }

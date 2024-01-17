@@ -139,13 +139,14 @@ router.get('/viewposts', async (req, res) => {
   try {
     const posts = await Post.find();
 
-    // Decode base64 images before sending
-    posts.forEach((post) => {
-      post.image = Buffer.from(post.image, 'base64');
-      res.setHeader('Content-Type', post.imageType); // Set appropriate content type based on imageType
-    });
-
-    res.send(posts);
+    // Return image URLs instead of base64 data
+    res.send(posts.map((post) => ({
+      _id: post._id,
+      caption: post.caption,
+      imageURL: `./images/${post.image}`, // Assuming images are stored in 'public/images'
+      createdBy: post.createdBy,
+      createdAt: post.createdAt,
+    })));
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
