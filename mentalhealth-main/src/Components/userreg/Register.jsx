@@ -1,6 +1,22 @@
 import React, { useState } from "react";
 import "./register.css";
 import axios from "axios";
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import caregroove from '../images/register-page/logo.png';
+
+const defaultTheme = createTheme();
 
 const Register = () => {
   const baseUrl = "http://localhost:3007/user/newuser";
@@ -27,7 +43,9 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log(formData)
     if (!passwordsMatch) {
       setNotification("Passwords don't match");
       return;
@@ -60,94 +78,151 @@ const Register = () => {
   };
 
   return (
-    <div className="register-container">
-      <div className="register-intro">
-        <h3>Register to get started!</h3>
-        <p>It's quick and easy.</p>
-      </div>
-      <div className="register-form-container">
-        <div className="register-form">
-          <div className="register-name-inputs">
-            <input
-              type="text"
-              name="fname"
-              placeholder="First name"
-              value={formData.fname}
-              onChange={handleInputChange}
-            />
-            <input
-              type="text"
-              name="sname"
-              placeholder="Surname"
-              value={formData.sname}
-              onChange={handleInputChange}
-            />
-          </div>
-          <input
-            type="text"
-            name="email"
-            placeholder="Email address"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleInputChange}
-            style={{ borderColor: passwordsMatch ? "" : "red" }}
-          />
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm password"
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-            style={{ borderColor: passwordsMatch ? "" : "red" }}
-          />
-          <p>Date of birth</p>
-          <input
-            type="date"
-            name="date"
-            placeholder="Date of birth"
-            value={formData.dateOfBirth}
-            onChange={handleInputChange}
-          />
-          <p>Gender</p>
-          <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleInputChange}
-          >
-            <option value="" disabled>
-              Select Gender
-            </option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-
-          {!passwordsMatch && (
-            <p style={{ color: "red" }}>Passwords don't match</p>
-          )}
-
-          <div className="register-notification">
-            {notification && <p>{notification}</p>}
-          </div>
-
-          <input type="button" id="register-button" value="Submit" onClick={handleSubmit} />
-          <small>
-            &#x1F6C8; By clicking on submit, you are agreeing with the{" "}
-            <a href="/">terms and services</a> of our product.
-          </small>
-        </div>
-      </div>
-      <div className="register-logo-end">
-        <h2>CareGroove</h2>
-        <p>Your mental health assistant.</p>
-      </div>
-    </div>
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="sm">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 0.2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <img src={caregroove}/>
+          <Typography component="h1" variant="h5">
+            Register to get started!
+          </Typography>
+          <Typography variant="subtitle1" color='secondary'>
+            It's quick and easy.
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="given-name"
+                  name="fname"
+                  required
+                  fullWidth
+                  id="fname"
+                  label="First Name"
+                  color='secondary'
+                  autoFocus
+                  value={formData.fname}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="sname"
+                  label="Surname"
+                  name="sname"
+                  color='secondary'
+                  autoComplete="family-name"
+                  value={formData.sname}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  color='secondary'
+                  autoComplete="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  color='secondary'
+                  autoComplete="new-password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  style={{ borderColor: passwordsMatch ? "" : "red" }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  id="confirmPassword"
+                  color='secondary'
+                  autoComplete="new-password"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  style={{ borderColor: passwordsMatch ? "" : "red" }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="subtitle1">Date of birth</Typography>
+                <TextField
+                  type="date"
+                  name="date"
+                  fullWidth
+                  id="date"
+                  color='secondary'
+                  value={formData.date}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="subtitle1">Gender</Typography>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleInputChange}
+                  style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                >
+                  <option value="" disabled>Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </Grid>
+            </Grid>
+            {!passwordsMatch && (
+              <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+                Passwords don't match
+              </Typography>
+            )}
+            <div className="register-notification">
+              {notification && <Typography variant="body2">{notification}</Typography>}
+            </div>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              color='secondary'
+            >
+              Submit
+            </Button>
+            <Link href="/login" variant="body2" >
+                    <Typography color='secondary'>Already a member? {"Log In"}</Typography>
+                  </Link>
+            <Typography variant="body2" sx={{ mt: 1 }}>
+              &#x1F6C8; By clicking on submit, you are agreeing with the{' '}
+              <Link href="/">terms and services</Link> of our product.
+            </Typography>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 };
 

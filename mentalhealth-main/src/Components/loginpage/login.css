@@ -1,37 +1,4 @@
-
-
-.intro{
-  float: left;
-  width: 100%;
-  margin-left: 100px;
-}
-.intro h3{
-  color:blueviolet;
-  font-size: 2rem;
-}
-.form-container{
-  float:left;
-  height: 50vh;
-  display: flex;
-  margin-left: 100px;
-  align-items: center;
-  justify-content: center;
-}
-.form{
-  width: 300px;
-  padding: 20px;
-  background-color: aliceblue;
-  border: 2px solid #000000;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  z-index: 1;
-}
-.form input {
-  height: 25px;
-  border: 1px solid #000;
-  border-radius: 5px;
-  z-index: 1;
-  background-color: rgb(230, 229, 229);
-  margin-bottom: 10px;
+img {
+  width: 150px;
+  height: 90px;
 }
