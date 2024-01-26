@@ -33,14 +33,15 @@
   margin-left: 10px;
 }
 #signup-btn {
-  background-color: purple;
+  background-color: #b271c3;
   height: 45px;
   width: 100px;
   border: 1px black solid;
   border-radius: 10px;
   color: white;
-  -webkit-box-shadow: 0px 5px 3px 0px #000000; 
-  box-shadow: 0px 5px 3px 0px #000000;
+  -webkit-box-shadow: 0px 3px 2px 0px #000000;
+  box-shadow: 0px 3px 2px 0px #000000;
+  font-weight: 800;
 }
 #login-btn {
   background-color: rgb(185, 185, 185);
@@ -49,6 +50,95 @@
   border: 1px black solid;
   border-radius: 10px;
   color: rgb(0, 0, 0);
-  -webkit-box-shadow: 0px 5px 3px 0px #000000; 
+  -webkit-box-shadow: 0px 5px 3px 0px #000000;
+  font-weight: 800;
   box-shadow: 0px 5px 3px 0px #000000;
+}
+.body-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 234px;
+  width: 100%;
+  margin-top: -60px;
+}
+.intro-para {
+  margin-left: -800px;
+  margin-top: 50px;
+}
+#cursor {
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  margin-top: 19px;
+  margin-left: 3px;
+  position: absolute;
+  display: inline-block;
+}
+#cursor::after {
+  content: "";
+  position: absolute;
+  width: 2px; /* Adjust the width of the cursor */
+  height: 34px; /* Adjust the height of the cursor */
+  background-color: black; /* Adjust the color of the cursor */
+  animation: cursor-blink 1s infinite; /* Adjust the blink speed */
+}
+
+/* Define the blink animation for the cursor */
+@keyframes cursor-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.intro-para h3 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+.intro-image {
+  margin-top: 120px;
+  margin-left: 900px;
+  position: absolute;
+}
+.intro-para h4 {
+  font-size: 1.8rem;
+  font-weight: 200;
+  position: absolute;
+}
+#intro-color {
+  color: #b271c3;
+}
+.intro-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 160px;
+}
+#get-started-button {
+  color: white;
+  border: 2px solid black;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #b271c3;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.gradient-stuff {
+  position: absolute;
+  margin-top: -200px;
+  height: 350px;
+  width: 100%;
+  background: linear-gradient(to top, #B271C3 0%, #FFFFFF 100%);
+  z-index: -1;
+}
+.black-bar{
+  margin-top: 150px;
+  position: relative;
+  background-color: black;
+  height: 100px;
+  width: 100%;
 }

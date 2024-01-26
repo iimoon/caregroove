@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+}
+.main-nav{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50px;
+    justify-content: space-between;
+    background-color: grey;
+}
+.logo-nav{
+    margin-top: 10px;
+    position: relative;
+    font-family:fa;
+}
+.search-bar{
+    margin-top: 10px;
+}
