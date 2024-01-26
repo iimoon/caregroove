@@ -43,6 +43,11 @@
   box-shadow: 0px 3px 2px 0px #000000;
   font-weight: 800;
 }
+#signup-btn:hover{
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
 #login-btn {
   background-color: rgb(185, 185, 185);
   height: 45px;
@@ -53,6 +58,11 @@
   -webkit-box-shadow: 0px 5px 3px 0px #000000;
   font-weight: 800;
   box-shadow: 0px 5px 3px 0px #000000;
+}
+#login-btn:hover{
+  background-color: black;
+  color: white;
+  cursor: pointer;
 }
 .body-main {
   display: flex;

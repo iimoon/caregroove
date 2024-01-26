@@ -4,7 +4,16 @@ import { Button, Typography } from "@mui/material";
 import meditate from "./images/register-page/meditate.json";
 import "./Home.css";
 import Lottie from "lottie-react";
+import { useNavigate } from "react-router-dom";
 const Home = () => {
+  const navigate = useNavigate();
+  const handleNavigate=(page)=>{
+    if(page=='Signup'){
+      navigate('/register')
+    } else {
+      navigate('/login')
+    }
+  }
   return (
     <div>
       <div className="navbar">
@@ -26,10 +35,10 @@ const Home = () => {
           </li>
         </ul>
         <div className="Button-Container">
-          <button id="signup-btn" type="Button">
+          <button id="signup-btn" type="Button" onClick={() => handleNavigate('Signup')}>
             Sign up
           </button>
-          <button id="login-btn" type="Button">
+          <button id="login-btn" type="Button" onClick={handleNavigate}>
             Login
           </button>
         </div>
