@@ -1,35 +1,58 @@
 import React from "react";
 import CareGrooveIcon from "../images/register-page/logo.png";
-import SearchIcon from '@mui/icons-material/Search';
-import NotificationIcon from '../images/res/notification-bell.png'
-import AvatarIcon from '../images/res/avatar.png'
-import { IconButton, InputBase } from "@mui/material";
-import './userlayout.css'
+import SearchIcon from "@mui/icons-material/Search";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  InputBase,
+  Box,
+  Typography,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 
-const Userlayout = () => {
+const UserLayout = () => {
   return (
-    <div>
-      <div className="main-nav">
-        <div className="logo-nav">
-          <h3>CareGroove</h3>
-        </div>
-        <div className="search-bar">
-          <InputBase
-            sx={{ ml: 1, flex: 1 }}
-            placeholder="Search"
-            inputProps={{ "aria-label": "search google maps" }}
-          />
-          <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-            <SearchIcon />
-          </IconButton>
-        </div>
-        <div className="nav-icons">
-          <img src={NotificationIcon}/>
-          <img src={AvatarIcon}/>
-        </div>
-      </div>
-    </div>
+    <Box sx={{ display: "flex", flexDirection: "column",color:'black',background:'linear-gradient(to bottom, #9c27b0, white)' }}>
+      <AppBar position="static">
+        <Toolbar sx={{background:'black'}}>
+          <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              CareGroove
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <InputBase
+              sx={{ flexGrow: 1 , color:'white'}}
+              placeholder="Search"
+              inputProps={{ "aria-label": "search google maps" }}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton edge="end" aria-label="search" sx={{color:'white'}}>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+            <Box sx={{ display: "flex", ml: 1 }}>
+              {" "}
+              {/* Create a separate space for icons */}
+              <IconButton size="small" sx={{color:'white'}}>
+                <NotificationsIcon />
+              </IconButton>
+              <IconButton size="small" sx={{color:'white'}}>
+                <AccountCircleIcon />
+              </IconButton>
+            </Box>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Box sx={{ flexGrow: 1, padding: 2 }}>{}</Box>
+    </Box>
   );
 };
 
-export default Userlayout;
+export default UserLayout;
