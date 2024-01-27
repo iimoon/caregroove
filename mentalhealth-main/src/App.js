@@ -15,6 +15,7 @@ import AdminViewPost from './Components/adminlog/AdminViewPost';
 import AdminAddtherapist from './Components/adminlog/AdminAddtherapist';
 import Notfound from './Components/Notfound';
 import Userlayout from './Components/User/Userlayout';
+import Userhome from './Components/User/Userhome';
 // import { NextUIProvider } from '@nextui-org/react';
 
 function App() {
@@ -38,7 +39,7 @@ function App() {
             <Route path='/admin/viewtherapist' element={<AdminTherapists/>}/>
           </Route>
           <Route path='/user' element={<Userlayout/>}>
-
+            <Route path='/user/home' element={<Userhome/>}/>
           </Route>
           <Route path='*' element={<Notfound/>}/>
         </Routes>
