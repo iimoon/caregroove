@@ -74,5 +74,36 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+router.get('/words', async (req, res) => {
+  try {
+    const words = await wordModel.find();
+    res.json(words);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
+// POST route to add a new word
+router.post('/words', async (req, res) => {
+  const word = new wordModel(req.body);
+  try {
+    await word.save();
+    res.status(201).json(word);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// DELETE route to delete a word by ID
+router.delete('/words/:id', async (req, res) => {
+  try {
+    const word = await wordModel.findByIdAndDelete(req.params.id);
+    if (!word) {
+      return res.status(404).json({ error: 'Word not found' });
+    }
+    res.json({ message: 'Word deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 module.exports = router;
