@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 
 const UserLayout = () => {
+  
   return (
     <Box sx={{ display: "flex", flexDirection: "column",color:'black',background:'linear-gradient(to bottom, #9c27b0, white)' }}>
       <AppBar position="static">
@@ -28,7 +29,7 @@ const UserLayout = () => {
             <InputBase
               sx={{ flexGrow: 1 , color:'white'}}
               placeholder="Search"
-              inputProps={{ "aria-label": "search google maps" }}
+              inputProps={{ "aria-label": "search " }}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton edge="end" aria-label="search" sx={{color:'white'}}>
