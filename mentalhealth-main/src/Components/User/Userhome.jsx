@@ -2,8 +2,13 @@ import { Typography } from "@mui/material";
 import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardActions from '@mui/material/CardActions';
-import Box from '@mui/material/Box';
+import CardActions from "@mui/material/CardActions";
+import Box from "@mui/material/Box";
+import HourglassBottomRoundedIcon from "@mui/icons-material/HourglassBottomRounded";
+import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
+import PlayCircleFilledRoundedIcon from "@mui/icons-material/PlayCircleFilledRounded";
+import WhatshotRoundedIcon from "@mui/icons-material/WhatshotRounded";
+import "./userhome.css";
 
 const Userhome = () => {
   const user = "Person";
@@ -70,14 +75,44 @@ const Userhome = () => {
   );
 
   return (
-    <div>
-      <div className="intro-greeting">
-        <Typography variant="h2">{`${greeting} ${user}!`}</Typography>
-        <div className="intro-quote">
-          <Box sx={{ width: 240 }}>
-            <Card variant="outlined">{card}</Card>
-          </Box>
+    <div className="home-maincontainer">
+      <div className="banner-user">
+        <div className="intro-greeting">
+          <Typography variant="h2" sx={{color:'black'}}>{`${greeting} ${user}!`}</Typography>
+          <div className="intro-quote">
+            <Typography sx={{ color: "purple", fontSize: 30 }}>
+              Word of the day
+            </Typography>
+            <h4>"ikigai"</h4>
+            <p>a reason for being.</p>
+          </div>
         </div>
+      </div>
+      <div className="streak-container">
+        <div className="icons">
+          <HourglassBottomRoundedIcon sx={{ color: "purple" }} />
+          <p>Total meditation time:</p>
+        </div>
+        <div className="icons">
+          <CalendarMonthRoundedIcon sx={{ color: "red" }} />
+          <p> Longest streak:</p>
+        </div>
+        <div className="icons">
+          <PlayCircleFilledRoundedIcon sx={{ color: "green" }} />
+          <p>Meditations:-</p>
+        </div>
+        <div className="icons">
+          <WhatshotRoundedIcon sx={{ color: "orange" }} />
+          <p>Current Streak:</p>
+        </div>
+      </div>
+      <div className="input-mind">
+        <p>Have you lost your mind?</p>
+        <input type="text" placeholder="drop your thoughts here :)" />
+      </div>
+      <div className="selections">
+        <button>Meditate</button>
+        <button>Journal</button>
       </div>
     </div>
   );

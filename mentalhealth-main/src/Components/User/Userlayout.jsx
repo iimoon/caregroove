@@ -26,7 +26,7 @@ import {
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import CreateIcon from "@mui/icons-material/Create";
-import SelfImprovementIcon from "@mui/icons-material/SelfImprovement";
+import SelfImprovementIcon from "@mui/icons-material/SelfImprovementRounded";
 import ArticleIcon from "@mui/icons-material/Article";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import "./userlayout.css";
@@ -55,14 +55,14 @@ const UserLayout = () => {
   };
 
   const permanentDrawer = (
-    <div style={{ backgroundColor: "black", height: "100%" }}>
+    <div style={{ backgroundColor: "white", height: "100%" }}>
       <Toolbar />
       <Divider />
       <Typography
         sx={{
           textAlign: "center",
           pt: 0,
-          color: "white",
+          color: "purple",
           fontSize: 30,
           marginTop: -6,
           marginBottom: 4,
@@ -70,36 +70,36 @@ const UserLayout = () => {
       >
         CareGroove
       </Typography>
-      <List sx={{ backgroundColor: "black" }}>
+      <List sx={{ backgroundColor: "white" }}>
         {[
           {
             path: "/users",
-            icon: <HomeIcon sx={{ fontSize: 40 }} />,
+            icon: <HomeIcon sx={{ fontSize: 30, color:'blue' }} />,
             text: "Home",
           },
           {
             path: "/posts",
-            icon: <CreateIcon sx={{ fontSize: 40 }} />,
+            icon: <CreateIcon sx={{ fontSize: 30, color:'green' }} />,
             text: "Diary",
           },
           {
             path: "/posts",
-            icon: <SelfImprovementIcon sx={{ fontSize: 40 }} />,
+            icon: <SelfImprovementIcon sx={{ fontSize: 30, color:'purple'}} />,
             text: "Meditation",
           },
           {
             path: "/blog",
-            icon: <ArticleIcon sx={{ fontSize: 40 }} />,
+            icon: <ArticleIcon sx={{ fontSize: 30 }} />,
             text: "Blogs",
           },
           {
             path: "/bookings",
-            icon: <DateRangeIcon sx={{ fontSize: 40 }} />,
+            icon: <DateRangeIcon sx={{ fontSize: 30 }} />,
             text: "Bookings",
           },
           {
             path: "/therapist",
-            icon: <NotificationsIcon sx={{ fontSize: 40 }} />,
+            icon: <NotificationsIcon sx={{ fontSize: 30 }} />,
             text: "Notifications",
           },
         ].map((item) => (
@@ -114,8 +114,8 @@ const UserLayout = () => {
             }}
             onClick={() => handleMenuClick(item.path)}
           >
-            <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
-            <ListItemText sx={{ fontWeight: 200 }} primary={item.text} />
+            <ListItemIcon sx={{ color: "black" }}>{item.icon}</ListItemIcon>
+            <ListItemText sx={{ fontWeight: 200, color:'black' }} primary={item.text} />
           </ListItemButton>
         ))}
       </List>
@@ -152,7 +152,7 @@ const UserLayout = () => {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawWidth,
-              borderRight: "1px solid black",
+              borderRight: "1px solid white",
             },
           }}
         >
@@ -168,10 +168,10 @@ const UserLayout = () => {
         >
           <div className="userhome-nav">
             <input type="text" aria-label="search" placeholder="Search"/>
-            <SearchIcon sx={{color:'white '}}/>
+            <SearchIcon sx={{color:'black '}}/>
             <div className="right-nav">
-              <NotificationsIcon sx={{color:'white',marginRight:2}}/>
-              <Person sx={{color:'white '}}/>
+              <NotificationsIcon sx={{color:'black',marginRight:2}}/>
+              <Person sx={{color:'black '}}/>
             </div>
           </div>
           <div className="outlet">
