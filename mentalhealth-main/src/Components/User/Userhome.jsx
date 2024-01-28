@@ -78,7 +78,10 @@ const Userhome = () => {
     <div className="home-maincontainer">
       <div className="banner-user">
         <div className="intro-greeting">
-          <Typography variant="h2" sx={{color:'black'}}>{`${greeting} ${user}!`}</Typography>
+          <Typography
+            variant="h2"
+            sx={{ color: "black" }}
+          >{`${greeting} ${user}!`}</Typography>
           <div className="intro-quote">
             <Typography sx={{ color: "purple", fontSize: 30 }}>
               Word of the day
@@ -90,7 +93,7 @@ const Userhome = () => {
       </div>
       <div className="streak-container">
         <div className="icons">
-          <HourglassBottomRoundedIcon sx={{ color: "purple" }} />
+          <HourglassBottomRoundedIcon sx={{ color: "white" }} />
           <p>Total meditation time:</p>
         </div>
         <div className="icons">
@@ -107,12 +110,24 @@ const Userhome = () => {
         </div>
       </div>
       <div className="input-mind">
-        <p>Have you lost your mind?</p>
+        <p>Have something on your mind?</p>
         <input type="text" placeholder="drop your thoughts here :)" />
       </div>
       <div className="selections">
-        <button>Meditate</button>
-        <button>Journal</button>
+        <div className="selection-btn">
+          <button>Meditate</button>
+        </div>
+        <div className="selection-btn">
+          <button>Journal</button>
+        </div>
+      </div>
+      <div className="secondary-selections">
+        <div className="selection-btn">
+          <button>Affirmations</button>
+        </div>
+        <div className="selection-btn">
+          <button>Breathing exercises</button>
+        </div>
       </div>
     </div>
   );

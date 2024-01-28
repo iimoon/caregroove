@@ -16,6 +16,9 @@ import AdminAddtherapist from './Components/adminlog/AdminAddtherapist';
 import Notfound from './Components/Notfound';
 import Userlayout from './Components/User/Userlayout';
 import Userhome from './Components/User/Userhome';
+import UserJournal from './Components/User/UserJournal';
+import UserDiary from './Components/User/UserDiary';
+import UserDiaryView from './Components/User/UserDiaryView';
 // import { NextUIProvider } from '@nextui-org/react';
 
 function App() {
@@ -40,6 +43,9 @@ function App() {
           </Route>
           <Route path='/user' element={<Userlayout/>}>
             <Route path='/user/home' element={<Userhome/>}/>
+            <Route path='/user/diary' element={<UserDiary/>}/>
+            <Route path='/user/diary-entry' element={<UserJournal/>}/>
+            <Route path='/user/diary-view' element={<UserDiaryView/>}/>
           </Route>
           <Route path='*' element={<Notfound/>}/>
         </Routes>

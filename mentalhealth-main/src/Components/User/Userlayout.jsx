@@ -44,7 +44,7 @@ const UserLayout = () => {
   };
 
   const handleMenuClick = (path) => {
-    navigate(`/admin${path}`);
+    navigate(`/user${path}`);
   };
 
   const handleLogout = () => {
@@ -73,12 +73,12 @@ const UserLayout = () => {
       <List sx={{ backgroundColor: "white" }}>
         {[
           {
-            path: "/users",
+            path: "/home",
             icon: <HomeIcon sx={{ fontSize: 30, color:'blue' }} />,
             text: "Home",
           },
           {
-            path: "/posts",
+            path: "/diary",
             icon: <CreateIcon sx={{ fontSize: 30, color:'green' }} />,
             text: "Diary",
           },

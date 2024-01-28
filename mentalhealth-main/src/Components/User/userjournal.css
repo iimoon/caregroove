@@ -1,0 +1,43 @@
+*{
+    margin:0;
+}
+.journalintro{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.journalmain-container{
+    display: flex;
+    flex-direction: column;
+}
+.journal-header{
+    margin-bottom: 20px;
+}
+.journal-intro{
+    margin-bottom: 20px;
+}
+.quill-container{
+    margin-bottom:10px;
+}
+.tags{
+    margin-bottom: 10px;
+}
+.journal-submit{
+    margin-top: 10px;
+}
+.journal-submit{
+    margin-top: 10px;
+}
+.journal-submit button{
+    background: #B271C3;
+    color: white;
+    border-radius: 10px;
+    border:2px solid black;
+    height: 40px;
+    width: 70px;
+}
+.journal-submit button:hover{
+    cursor:pointer;
+    background:rgb(209, 176, 224);
+    color:white;
+}

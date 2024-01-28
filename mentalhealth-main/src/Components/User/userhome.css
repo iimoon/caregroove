@@ -30,7 +30,8 @@
     color:rgb(0, 0, 0);
 }
 .streak-container{
-    background: rgb(42, 42, 42);
+    margin-top: -20px;
+    background: linear-gradient(to top, #302f2f 0%, #c56eb4 100%);
     width: 60%;
     border-radius: 10px;
     color:white;
@@ -65,3 +66,40 @@
     border-style: none;
     margin-bottom: 10px;
 }
+.selections {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top:20px;
+    margin-bottom: 20px; /* Add margin to create space between primary and secondary selections */
+  }
+  
+  .secondary-selections {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .selection-btn button {
+    color: white;
+    background: black;
+    width: 150px;
+    height: 70px;
+    border-radius: 20px;
+    font-size: 16px; /* Adjust font size if needed */
+  }
+  .selection-btn button:hover {
+    color: white;
+    background: #B271C3;
+    border:3px solid lightcoral;
+    width: 150px;
+    height: 70px;
+    border-radius: 20px;
+
+    font-size: 16px; /* Adjust font size if needed */
+    cursor:pointer;
+  }
