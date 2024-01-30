@@ -83,7 +83,7 @@ const UserLayout = () => {
             text: "Diary",
           },
           {
-            path: "/posts",
+            path: "/meditation",
             icon: <SelfImprovementIcon sx={{ fontSize: 30, color:'purple'}} />,
             text: "Meditation",
           },

@@ -19,6 +19,7 @@ import Userhome from './Components/User/Userhome';
 import UserJournal from './Components/User/UserJournal';
 import UserDiary from './Components/User/UserDiary';
 import UserDiaryView from './Components/User/UserDiaryView';
+import UserMeditation from './Components/User/UserMeditation';
 // import { NextUIProvider } from '@nextui-org/react';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
             <Route path='/user/diary' element={<UserDiary/>}/>
             <Route path='/user/diary-entry' element={<UserJournal/>}/>
             <Route path='/user/diary-view' element={<UserDiaryView/>}/>
+            <Route path='/user/meditation' element={<UserMeditation/>}/>
           </Route>
           <Route path='*' element={<Notfound/>}/>
         </Routes>
