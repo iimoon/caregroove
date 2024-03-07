@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Table,
@@ -12,45 +11,25 @@ import {
   Paper,
   TablePagination,
   Typography,
-  styled,
 } from "@mui/material";
 
 const AdminBookings = () => {
-  const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
+  const [bookings, setBookings] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
-    if (!token) {
-      navigate("/");
-    } else {
-      // Fetch the list of users when the component mounts
-      axios
-        .get("http://localhost:3007/admin/users")
-        .then((response) => {
-          setUsers(response.data);
-        })
-        .catch((error) => {
-          console.log("Error fetching users:", error);
-        });
-    }
-  }, [navigate]);
-
-  const handleDeleteUser = (userId) => {
-    // Delete a user by ID
+    // Fetch the list of bookings when the component mounts
     axios
-      .delete(`http://localhost:3007/admin/deleteuser/${userId}`)
+      .get("http://localhost:3007/admin/bookings")
       .then((response) => {
-        console.log("User deleted successfully:", response.data);
-        // Update the user list after deletion
-        setUsers(users.filter((user) => user._id !== userId));
+        setBookings(response.data);
+        console.log("Server response:", response.data);
       })
       .catch((error) => {
-        console.log("Error deleting user:", error);
+        console.log("Error fetching bookings:", error);
       });
-  };
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -61,36 +40,56 @@ const AdminBookings = () => {
     setPage(0);
   };
 
+  const handleDeleteBooking = (bookingId) => {
+    // Handle deletion of booking by ID
+    axios
+      .delete(`http://localhost:3007/admin/deleteBooking/${bookingId}`)
+      .then((response) => {
+        console.log("Booking deleted successfully:", response.data);
+        // Update the booking list after deletion
+        setBookings(bookings.filter((booking) => booking._id !== bookingId));
+      })
+      .catch((error) => {
+        console.log("Error deleting booking:", error);
+      });
+  };
+
   return (
     <div>
-
-      <h3>Registered Users</h3>
+      <Typography variant="h3">Booking Details</Typography>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <TableCell>First Name</TableCell>
-                <TableCell>Last Name</TableCell>
-                <TableCell>Email</TableCell>
+                <TableCell>User</TableCell>
+                <TableCell>Therapist</TableCell>
+                <TableCell>Date</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {users
-                .slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-                .map((user) => (
-                  <TableRow key={user._id}>
-                    <TableCell>{user.fname}</TableCell>
-                    <TableCell>{user.sname}</TableCell>
-                    <TableCell>{user.email}</TableCell>
+              {bookings
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((booking) => (
+                  <TableRow key={booking._id}>
+                    {/* Render user information */}
+                    <TableCell>
+                      {booking.userId
+                        ? `${booking.userId.fname} ${booking.userId.sname} (${booking.userId._id})`
+                        : "N/A"}
+                    </TableCell>
+                    {/* Render therapist information */}
+                    <TableCell>
+                      {booking.therapistId
+                        ? `${booking.therapistId.fname} (${booking.therapistId._id})`
+                        : "N/A"}
+                    </TableCell>
+                    <TableCell>{new Date(booking.date).toLocaleDateString()}</TableCell> 
                     <TableCell>
                       <Button
                         variant="outlined"
-                        onClick={() => handleDeleteUser(user._id)}
+                        onClick={() => handleDeleteBooking(booking._id)}
                       >
                         Delete
                       </Button>
@@ -103,7 +102,7 @@ const AdminBookings = () => {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={users.length}
+          count={bookings.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -113,16 +112,5 @@ const AdminBookings = () => {
     </div>
   );
 };
-
-const StyledNav = styled("div")({
-  position: "static",
-  padding: "10px",
-  height: "60px",
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  backgroundColor: "purple",
-});
 
 export default AdminBookings;

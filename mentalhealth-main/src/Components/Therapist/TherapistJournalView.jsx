@@ -12,29 +12,22 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const UserDiaryView = () => {
+const TherapistJournalView = () => {
   const [diaryEntries, setDiaryEntries] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user_id = localStorage.getItem("user_id");
-    const token = localStorage.getItem("jwtToken");
-    if (!user_id || !token) {
-      navigate("/");
-    }
-    const userId = localStorage.getItem("user_id");
-    if (!userId) return;
-    console.log(userId);
+    const therapistId = localStorage.getItem("therapist_id");
+    if (!therapistId) return;
 
-    fetch(`http://localhost:3007/user/diaries/${userId}`)
+    fetch(`http://localhost:3007/therapist/diaries/${therapistId}`)
       .then((response) => response.json())
       .then((data) => setDiaryEntries(data))
       .catch((error) => console.error("Error fetching diary entries:", error));
   }, []);
 
   const handleView = (diaryEntryId) => {
-    navigate(`/user/readjournal/${diaryEntryId}`);
-    console.log("diary id:", diaryEntryId);
+    navigate(`/therapist/journal/read/${diaryEntryId}`);
   };
 
   return (
@@ -57,7 +50,7 @@ const UserDiaryView = () => {
               <TableCell align="right">
                 <Button
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   onClick={() => handleView(entry._id)}
                 >
                   View
@@ -76,4 +69,4 @@ const UserDiaryView = () => {
   );
 };
 
-export default UserDiaryView;
+export default TherapistJournalView;

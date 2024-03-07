@@ -1,9 +1,10 @@
-import { Typography } from "@mui/material";
-import React from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Box from "@mui/material/Box";
+import React, { useState, useEffect } from "react";
+import {
+  Typography,
+  Card,
+  CardContent,
+  Box,
+} from "@mui/material";
 import HourglassBottomRoundedIcon from "@mui/icons-material/HourglassBottomRounded";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import PlayCircleFilledRoundedIcon from "@mui/icons-material/PlayCircleFilledRounded";
@@ -11,7 +12,14 @@ import WhatshotRoundedIcon from "@mui/icons-material/WhatshotRounded";
 import "./userhome.css";
 
 const Userhome = () => {
-  const user = "Person";
+  const [person, setPerson] = useState("");
+
+  useEffect(() => {
+    const fetchUsername = () => {
+      setPerson(localStorage.getItem("fname"));
+    };
+    fetchUsername();
+  }, []);
 
   // Get potential time zone hint (might not always be accurate)
   const potentialTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -53,35 +61,11 @@ const Userhome = () => {
     </Box>
   );
 
-  const card = (
-    <React.Fragment>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography sx={{ mb: 1 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-    </React.Fragment>
-  );
-
   return (
     <div className="home-maincontainer">
       <div className="banner-user">
         <div className="intro-greeting">
-          <Typography
-            variant="h2"
-            sx={{ color: "black" }}
-          >{`${greeting} ${user}!`}</Typography>
+          <Typography variant="h2" sx={{ color: "black" }}>{`${greeting} ${person}!`}</Typography>
           <div className="intro-quote">
             <Typography sx={{ color: "purple", fontSize: 30 }}>
               Word of the day

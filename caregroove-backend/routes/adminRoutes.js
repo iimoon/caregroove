@@ -4,6 +4,7 @@ const AdminModel = require("../model/Admin");
 const UserModel = require("../model/User")
 const Blog = require('../model/AdminBlog'); // Adjust the path accordingly
 const Post = require('../model/AdminPost'); // Import the Post model
+const Booking = require('../model/Bookings');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -102,37 +103,28 @@ router.delete("/deleteuser/:id", async (req, res) => {
   }
 });
 // Create a new post (for admin)
-const upload = multer({
-  limits: {
-    fileSize: 1024 * 1024 * 5, // 5 MB limit
-  },
-  fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-      return cb(new Error('Please upload an image (jpg, jpeg, or png)'));
-    }
-    cb(undefined, true);
-  },
-});
+
+
 
 // Create a new post with an image
-router.post('/newpost', upload.single('image'), async (req, res) => {
-  try {
-    const { caption } = req.body;
-    const imageType = req.file.mimetype;
+// router.post('/newpost', upload.single('image'), async (req, res) => {
+//   try {
+//     const { caption } = req.body;
+//     const imageType = req.file.mimetype;
 
-    // Save the image to the backend folder
-    const imagePath = path.join(__dirname, '../public/images/', req.file.originalname);
-    fs.writeFileSync(imagePath, req.file.buffer);
+//     // Save the image to the backend folder
+//     const imagePath = path.join(__dirname, '../public/images/', req.file.originalname);
+//     fs.writeFileSync(imagePath, req.file.buffer);
 
-    const post = new Post({ caption, image: req.file.originalname, imageType });
-    await post.save();
+//     const post = new Post({ caption, image: req.file.originalname, imageType });
+//     await post.save();
 
-    res.status(201).send(post);
-  } catch (error) {
-    console.error(error);
-    res.status(400).send(error.message);
-  }
-});
+//     res.status(201).send(post);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(400).send(error.message);
+//   }
+// });
 
 // Get all posts
 router.get('/viewposts', async (req, res) => {
@@ -177,11 +169,9 @@ router.post('/addtherapist', async (req, res) => {
     console.log('Received data:', req.body);
 
     // Validate required fields
-    const { fname, email, location } = req.body;
-    if (!fname || !email || !location) {
-      return res
-        .status(400)
-        .json({ message: 'Missing required fields: first name, email, and location are all mandatory.' });
+    const { fname, email, location, password } = req.body;
+    if (!fname || !email || !location || !password) {
+      return res.status(400).json({ message: 'Missing required fields: first name, email, location, and password are all mandatory.' });
     }
 
     // Check for existing therapist with the same email
@@ -191,11 +181,15 @@ router.post('/addtherapist', async (req, res) => {
       return res.status(400).json({ error: 'Therapist exists' });
     }
 
-    // Create new therapist
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10); // Salt rounds = 10
+
+    // Create new therapist with hashed password
     const newTherapist = new therapistModel({
       fname,
       email,
       location,
+      password: hashedPassword,
     });
     await newTherapist.save();
 
@@ -206,13 +200,15 @@ router.post('/addtherapist', async (req, res) => {
   }
 });
 
-router.get('/viewtherapists', async(req,res)=>{
-  try{
+
+
+router.get('/viewtherapists', async (req, res) => {
+  try {
     const therapist = await therapistModel.find();
     res.status(200).json(therapist);
-  }catch(error){  
-    console.log("Error getting therapists:",error);
-    res.status(500).json({message:"Internal server error"});
+  } catch (error) {
+    console.log("Error getting therapists:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 })
 router.delete("/deletetherapist/:id", async (req, res) => {
@@ -230,6 +226,21 @@ router.delete("/deletetherapist/:id", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+router.get('/bookings', async (req, res) => {
+  try {
+    // Retrieve booking details from the database and populate required fields
+    const bookings = await Booking.find()
+      .populate('userId', 'fname sname')
+      .populate('therapistId', 'fname');
+
+    // Send the bookings as a response
+    res.status(200).json(bookings);
+  } catch (error) {
+    console.error('Error fetching booking details:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 //Blog routes
 //Get all blogs
@@ -242,44 +253,94 @@ router.get('/viewblogs', async (req, res) => {
   }
 });
 //Post new blog
-router.post('/addblog', async (req, res) => {
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/images')
+  },
+  filename: (req, file, cb) => {
+    console.log(file)
+    cb(null, Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({ storage: storage });
+
+router.post('/addblog', upload.single('image'), async (req, res) => {
+  // Access the uploaded image using req.file
   const { title, content, category } = req.body;
+
   try {
-    const newBlog = new Blog({ title, content, category });
+    // Create a new Blog instance
+    const newBlog = new Blog({
+      title,
+      content,
+      category,
+      // If you're storing the file path in the database, you can access it using req.file.path
+      imagePath: req.file.path // Assuming imagePath is the field in your Blog schema to store the image path
+    });
+
+    // Save the new blog to the database
     await newBlog.save();
+
+    // Respond with the newly created blog
     res.json(newBlog);
   } catch (error) {
+    // Handle errors
+    console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 // PUT (Update) a blog by ID
-router.put('/blogs/:id', async (req, res) => {
+router.put('/updateblog/:blogId', async (req, res) => {
   const { title, content, category } = req.body;
-  const blogId = req.params.id;
-  
+  const blogId = req.params.blogId;
+
+  console.log('Received update request for blogId:', blogId);
+  console.log('Update data:', { title, content, category });
+
   try {
     const updatedBlog = await Blog.findByIdAndUpdate(blogId, { title, content, category }, { new: true });
-    
+
     if (!updatedBlog) {
+      console.log('Blog not found with id:', blogId);
       return res.status(404).json({ error: 'Blog not found' });
     }
-    
+
+    console.log('Blog updated successfully:', updatedBlog);
     res.json(updatedBlog);
+  } catch (error) {
+    console.error('Error updating blog:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+//Get blog w specific ID
+router.get('/getblog/:blogId', async (req, res) => {
+  const blogId = req.params.blogId;
+
+  try {
+    const blog = await Blog.findById(blogId);
+
+    if (!blog) {
+      return res.status(404).json({ error: 'Blog not found' });
+    }
+
+    res.json(blog);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 // DELETE a blog by ID
 router.delete('/blogs/:id', async (req, res) => {
+  console.log("Server response:",res.body);
   const blogId = req.params.id;
-  
+
   try {
     const deletedBlog = await Blog.findByIdAndDelete(blogId);
-    
+
     if (!deletedBlog) {
       return res.status(404).json({ error: 'Blog not found' });
     }
-    
+
     res.json(deletedBlog);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });

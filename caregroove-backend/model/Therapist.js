@@ -12,6 +12,9 @@ const therapistSchema = new mongoose.Schema({
     location:{
         type:String,
         required:true
+    },
+    password:{
+        type:String
     }
 });
 

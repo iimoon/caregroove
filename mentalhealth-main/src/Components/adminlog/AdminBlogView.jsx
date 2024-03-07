@@ -16,6 +16,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import DOMPurify from 'dompurify'; // Import DOMPurify for sanitization
 
 const baseUrl = "http://localhost:3007/admin/viewblogs";
 
@@ -31,7 +32,7 @@ const AdminBlogView = () => {
   }, []);
 
   const handleUpdate = (blogId) => {
-    navigate(`/admin/blog/${blogId}`);
+    navigate(`/admin/editblog/${blogId}`);
   };
 
   const handleDelete = (blogId) => {
@@ -68,7 +69,8 @@ const AdminBlogView = () => {
               <AccordionDetails>
                 <TableRow>
                   <TableCell>
-                    <Typography variant="body1">{blog.content}</Typography>
+                    {/* Render HTML content safely */}
+                    <Typography variant="body1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }} />
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -88,7 +90,8 @@ const AdminBlogView = () => {
                     </Button>
                   </TableCell>
                 </TableRow>
-                <TableCell>{blogs.category}</TableCell>
+                {/* Render category within the AccordionDetails */}
+                <TableCell>{blog.category}</TableCell>
               </AccordionDetails>
             </Accordion>
           ))}

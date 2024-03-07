@@ -1,0 +1,8 @@
+  .blogs-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0.80rem;
+    margin-top: 2.5rem;
+    gap: 1.25rem;
+  }

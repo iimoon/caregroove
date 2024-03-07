@@ -15,55 +15,34 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Backdrop, MenuItem, Modal } from "@mui/material";
-import caregroove from "../images/register-page/logo.png";
-import "./login.css";
-import Register from "../userreg/Register";
+import { MenuItem } from "@mui/material";
 
 const theme = createTheme();
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="/">
-        CareGroove
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const Login = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const [loginData, setLoginData] = React.useState({
     email: "",
     password: "",
     usertype: "",
   });
+
   const inputHandler = (e) => {
     const { name, value } = e.target;
     setLoginData((prevData) => ({ ...prevData, [name]: value }));
   };
+
   const handleSubmit = async (event) => {
-    console.log(loginData);
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
+    const userType = data.get("usertype");
     const loginRoute =
-      loginData.usertype === "admin"
-        ? "http://localhost:3007/admin/login"
+      loginData.usertype === "therapist"
+        ? "http://localhost:3007/therapist/login"
         : "http://localhost:3007/user/login";
+
     try {
       const response = await axios.post(
         loginRoute,
@@ -77,12 +56,17 @@ const Login = () => {
         }
       );
 
-      const { token } = response.data;
+      const { token, user_id, fname , therapist_id} = response.data; // Extract fname from response
       localStorage.setItem("jwtToken", token);
-      const adminpath = "/admin"; // Adjust the path as needed
-      navigate(adminpath);
-      console.log(response.data.message);
-      console.log(response.data.data);
+      localStorage.setItem("user_id", user_id); // Store user_id in local storage
+      localStorage.setItem("therapist_id", therapist_id); // Store user_id in local storage
+      localStorage.setItem("fname", fname); // Store fname in local storage
+
+      if (userType === "therapist") {
+        navigate("/therapist");
+      } else {
+        navigate("/user");
+      }
     } catch (error) {
       console.error("Error:", error);
       // Adjust error handling as needed
@@ -183,7 +167,7 @@ const Login = () => {
                 onChange={inputHandler}
               >
                 <MenuItem value="user">User</MenuItem>
-                <MenuItem value="admin">Admin</MenuItem>
+                <MenuItem value="therapist">Therapist</MenuItem>
               </TextField>
               <FormControlLabel
                 control={<Checkbox value="remember" color="secondary" />}
@@ -205,29 +189,11 @@ const Login = () => {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/register" variant="body2" onClick={handleOpen}>
+                  <Link href="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
-                {/* <Grid item>
-                  <Modal open={open} onClose={handleClose}>
-                      <Backdrop sx={{ background: "rgba(0, 0, 0, 0.3)" }} />
-                      <Box
-                        sx={{
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          transform: "translate(-50%, -50%)",
-                        }}
-                      >
-                        <Box p={3}>
-                          <Register /> Your sign-up form component
-                        </Box>
-                      </Box>
-                    </Modal>
-                </Grid> */}
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>

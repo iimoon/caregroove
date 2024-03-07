@@ -29,12 +29,12 @@ import CreateIcon from "@mui/icons-material/Create";
 import SelfImprovementIcon from "@mui/icons-material/SelfImprovementRounded";
 import ArticleIcon from "@mui/icons-material/Article";
 import DateRangeIcon from "@mui/icons-material/DateRange";
-import "./userlayout.css";
+import "./TherapistLayout.css";
 import { AvatarIcon } from "@nextui-org/react";
 import Person from "@mui/icons-material/Person";
 
 const drawWidth = 200;
-const UserLayout = () => {
+const TherapistLayout = () => {
   const [mobileViewOpen, setMobileViewOpen] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,7 +44,7 @@ const UserLayout = () => {
   };
 
   const handleMenuClick = (path) => {
-    navigate(`/user${path}`);
+    navigate(`/therapist${path}`);
   };
 
   const handleLogout = () => {
@@ -56,67 +56,54 @@ const UserLayout = () => {
   };
 
   const permanentDrawer = (
-    <div style={{ backgroundColor: "white", height: "100%" }}>
+    <div style={{ backgroundColor: "#66545e", height: "100%" }}>
       <Toolbar />
       <Divider />
       <Typography
         sx={{
           textAlign: "center",
           pt: 0,
-          color: "purple",
+          color: "#301934",
           fontSize: 30,
           marginTop: -6,
           marginBottom: 4,
         }}
       >
         CareGroove
+        <br/>
+        <Typography color='white'>Therapist-Panel</Typography>
       </Typography>
-      <List sx={{ backgroundColor: "white" }}>
+      <List sx={{ backgroundColor: "#66545e" }}>
         {[
           {
             path: "/home",
-            icon: <HomeIcon sx={{ fontSize: 30, color:'blue' }} />,
+            icon: <HomeIcon sx={{ fontSize: 30, color:'white' }} />,
             text: "Home",
           },
           {
-            path: "/diary",
-            icon: <CreateIcon sx={{ fontSize: 30, color:'green' }} />,
+            path: "/journal",
+            icon: <CreateIcon sx={{ fontSize: 30, color:'white' }} />,
             text: "Diary",
-          },
-          {
-            path: "/meditation-home",
-            icon: <SelfImprovementIcon sx={{ fontSize: 30, color:'purple'}} />,
-            text: "Meditation",
-          },
-          {
-            path: "/blogs",
-            icon: <ArticleIcon sx={{ fontSize: 30 }} />,
-            text: "blogs",
           },
           {
             path: "/bookings",
             icon: <DateRangeIcon sx={{ fontSize: 30 }} />,
             text: "Bookings",
           },
-          {
-            path: "/therapist",
-            icon: <NotificationsIcon sx={{ fontSize: 30 }} />,
-            text: "Notifications",
-          },
         ].map((item) => (
           <ListItemButton
             key={item.path}
             sx={{
               color:
-                location.pathname === `/admin${item.path}`
+                location.pathname === `/therapist${item.path}`
                   ? "#9c27b0"
                   : "white",
               height: 50,
             }}
             onClick={() => handleMenuClick(item.path)}
           >
-            <ListItemIcon sx={{ color: "black" }}>{item.icon}</ListItemIcon>
-            <ListItemText sx={{ fontWeight: 200, color:'black' }} primary={item.text} />
+            <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
+            <ListItemText sx={{ fontWeight: 200, color:'white' }} primary={item.text} />
           </ListItemButton>
         ))}
       </List>
@@ -184,4 +171,4 @@ const UserLayout = () => {
   );
 };
 
-export default UserLayout;
+export default TherapistLayout;

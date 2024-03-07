@@ -1,36 +1,34 @@
-import { TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
 import JoditEditor from "jodit-react";
-import "./userjournal.css";
+import { useNavigate } from "react-router-dom";
 
-const UserJournal = () => {
+const TherapistJournal = () => {
   const [formData, setFormData] = useState({
-    userId: "",
+    therapistId: "",
     title: "",
     content: "",
-    tags: ""
+    tags: "",
   });
-
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/therapist/journal/view")
+  };
   const handleUpload = () => {
-    const userId = localStorage.getItem("user_id");
-    setFormData({ ...formData, userId: userId });
-    console.log("Form data:",formData)
+    const therapistId = localStorage.getItem("therapist_id");
+    setFormData({ ...formData, therapistId: therapistId });
     axios
-      .post("http://localhost:3007/user/addentry", formData)
+      .post("http://localhost:3007/therapist/addentry", formData)
       .then((response) => {
-        alert("Entry saved!")
-        console.log("Upload successful:", response.data);
-        // Reset form fields after successful submission
+        alert("Entry saved!");
         setFormData({
           title: "",
           content: "",
-          tags: ""
+          tags: "",
         });
       })
-      .catch((error) =>
-        console.error("Error uploading journal entry:", error)
-      );
+      .catch((error) => console.error("Error uploading journal entry:", error));
   };
 
   return (
@@ -69,17 +67,20 @@ const UserJournal = () => {
             placeholder="Tags"
             color="secondary"
             value={formData.tags}
-            onChange={(e) =>
-              setFormData({ ...formData, tags: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
           />
         </div>
-        <div className="journal-submit">
-          <button onClick={handleUpload}>Submit</button>
+        <div className="journal-submt">
+          <Button variant="contained" onClick={handleUpload} color="secondary">
+            Submit
+          </Button>
+          <Button variant="outlined" color="secondary" onClick={handleNavigate}>
+            View Entries
+          </Button>
         </div>
       </div>
     </div>
   );
 };
 
-export default UserJournal;
+export default TherapistJournal;
