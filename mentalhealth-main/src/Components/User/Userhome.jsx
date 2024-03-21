@@ -78,19 +78,19 @@ const Userhome = () => {
       <div className="streak-container">
         <div className="icons">
           <HourglassBottomRoundedIcon sx={{ color: "white" }} />
-          <p>Total meditation time:</p>
+          <p>Total meditation time:0</p>
         </div>
         <div className="icons">
           <CalendarMonthRoundedIcon sx={{ color: "red" }} />
-          <p> Longest streak:</p>
+          <p> Longest streak:0</p>
         </div>
         <div className="icons">
           <PlayCircleFilledRoundedIcon sx={{ color: "green" }} />
-          <p>Meditations:-</p>
+          <p>Meditations:0</p>
         </div>
         <div className="icons">
           <WhatshotRoundedIcon sx={{ color: "orange" }} />
-          <p>Current Streak:</p>
+          <p>Current Streak:0</p>
         </div>
       </div>
       <div className="input-mind">

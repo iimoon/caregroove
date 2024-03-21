@@ -1,31 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Button,
-  TextField,
-  Typography,
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Paper,
-  Modal,
-  Backdrop,
-  Box,
-} from "@mui/material";
+import { Button, TextField, Typography, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from "@mui/material";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 
 const UserBookings = () => {
   const [location, setLocation] = useState("");
   const [therapists, setTherapists] = useState([]);
-  const [selectedTherapistId, setSelectedTherapistId] = useState(null);
-  const [openModal, setOpenModal] = useState(false);
-  const [bookingDate, setBookingDate] = useState(""); // State to store booking date
-  const [cardNumber, setCardNumber] = useState(""); // State to store card number
-  const [expiryDate, setExpiryDate] = useState(""); // State to store expiry date
-  const [accountNumber, setAccountNumber] = useState(""); // State to store account number
-  const [pin, setPin] = useState(""); // State to store PIN
+  const navigate = useNavigate(); // Initialize useNavigate for navigation
+
+  const setTherapistName = (therapistName) => {
+    localStorage.setItem("selectedTherapistName", therapistName);
+  };
+
+  const handleBookingpage = ()=>{
+    navigate("/user/booked")
+  }
 
   useEffect(() => {
     const fetchTherapists = async () => {
@@ -48,34 +37,9 @@ const UserBookings = () => {
     }
   };
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
-  const handleBookAppointment = async () => {
-    const bookingDetails = {
-      userId: localStorage.getItem("user_id"),
-      therapistId: selectedTherapistId,
-      date: bookingDate,
-      paymentDetails: {
-        cardNumber: cardNumber,
-        expiryDate: expiryDate,
-        accountNumber: accountNumber,
-        pin: pin,
-      },
-    };
-
-    try {
-      const response = await axios.post("http://localhost:3007/user/book", bookingDetails);
-      alert(response.data.message);
-    } catch (error) {
-      console.error("Error booking appointment:", error);
-      alert("Error booking appointment. Please try again later.");
-    }
+  const handleBookTherapist = (therapistId, therapistName) => {
+    localStorage.setItem("selectedTherapistName", therapistName);
+    navigate(`/user/bookings/details/${therapistId}`); // Navigate to the details page with therapist ID
   };
 
   return (
@@ -102,6 +66,7 @@ const UserBookings = () => {
         >
           Submit
         </Button>
+        <Button variant="Outlined" color="secondary" onClick={handleBookingpage}>View bookings</Button>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -120,10 +85,7 @@ const UserBookings = () => {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => {
-                        setSelectedTherapistId(therapist._id);
-                        handleOpenModal();
-                      }}
+                      onClick={() => handleBookTherapist(therapist._id, therapist.fname)}
                     >
                       Book
                     </Button>
@@ -138,76 +100,6 @@ const UserBookings = () => {
             </Typography>
           )}
         </TableContainer>
-        <Modal
-          open={openModal}
-          onClose={handleCloseModal}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        >
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              bgcolor: "background.paper",
-              border: "2px solid #000",
-              boxShadow: 24,
-              p: 4,
-            }}
-          >
-            <Typography variant="h6" component="h2">
-              Book Appointment
-            </Typography>
-            <Typography sx={{ mt: 2 }}>
-              <Typography>
-                To complete your booking process please complete the payment.
-              </Typography>
-              <br />
-              <TextField
-                type="date"
-                value={bookingDate}
-                onChange={(e) => setBookingDate(e.target.value)}
-              />
-              <br />
-              <br />
-              <Typography>Card details</Typography>
-              <TextField
-                label="Card Number"
-                value={cardNumber}
-                onChange={(e) => setCardNumber(e.target.value)}
-              />
-              <br />
-              <br />
-              <TextField
-                label="Expiry Date"
-                value={expiryDate}
-                onChange={(e) => setExpiryDate(e.target.value)}
-              />
-              <br />
-              <br />
-              <TextField
-                label="Account Number"
-                value={accountNumber}
-                onChange={(e) => setAccountNumber(e.target.value)}
-              />
-              <br />
-              <br />
-              <TextField
-                label="PIN"
-                value={pin}
-                onChange={(e) => setPin(e.target.value)}
-              />
-              <br />
-              <br />
-              <Button onClick={handleBookAppointment}>Submit</Button>
-            </Typography>
-            <Button onClick={handleCloseModal}>Close</Button>
-          </Box>
-        </Modal>
       </div>
     </div>
   );

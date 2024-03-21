@@ -31,6 +31,9 @@ import TherapistBookings from './Components/Therapist/TherapistBookings';
 import TherapistJournal from './Components/Therapist/TherapistJournal';
 import TherapistJournalView from './Components/Therapist/TherapistJournalView';
 import TherapistJournalRead from './Components/Therapist/TherapistJournalRead';
+import UserBookingDetails from './Components/User/UserBookingDetails';
+import UserBookingHistory from './Components/User/UserBookingHistory';
+import UserNotificationPage from './Components/User/UserNotificationPage';
 
 // import { NextUIProvider } from '@nextui-org/react';
 
@@ -64,7 +67,10 @@ function App() {
             <Route path='/user/blogs' element={<UserBlogs/>}/>
             <Route path="/user/blogread/:blogId" element={<UserBlogRead />} />
             <Route path="/user/bookings" element={<UserBookings/>}/>
+            <Route path="/user/bookings/details/:therapistId" element={<UserBookingDetails/>}/>
+            <Route path="/user/booked" element={<UserBookingHistory/>}/>
             <Route path="/user/readjournal/:diaryEntryId" element={<UserJournalread/>}/>
+            <Route path="/user/notifications" element={<UserNotificationPage/>}/>
           </Route>
           <Route path='/therapist' element={<TherapistLayout/>}>
             <Route path='/therapist/home' element={<TherapistHome/>}/>

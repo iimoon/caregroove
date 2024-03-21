@@ -11,8 +11,24 @@ const bookingSchema = new mongoose.Schema({
         ref: 'therapist',
         required: true
     },
-    date: {
-        type: Date,
+    Bookingdate: {
+        type: String,
+        required: true
+    },
+    sessionDuration:{
+        type:String,
+        required:true
+    },
+    time: {
+        type: String,
+        required: true
+    },
+    helpType: {
+        type: String,
+        required: true
+    },
+    cost: {
+        type: Number,
         required: true
     },
     paymentDetails: {
@@ -33,10 +49,14 @@ const bookingSchema = new mongoose.Schema({
             required: true
         }
     },
-    approval:{
+    approval: {
         type: String,
-        enum:["approved","pending"],
-        default:"pending"
+        enum: ["approved", "pending"],
+        default: "pending"
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
 

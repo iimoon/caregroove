@@ -1,0 +1,21 @@
+*{
+    margin:0;
+}
+.booking-mainContainer{
+    display: flex;
+    flex-direction: column;
+}
+.booking-details{
+    display: flex;
+    column-gap: 40px;
+}
+.terms{
+    display: flex;
+}
+.terms p{
+    margin-top:8px;
+}
+.booking-button-ctn{
+    display: flex;
+    column-gap: 10px;
+}

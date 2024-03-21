@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Paper, Typography } from "@mui/material";
+import FaceIcon from "@mui/icons-material/Face";
 
 const TherapistBookingApproval = () => {
     const [bookings, setBookings] = useState([]);
@@ -27,6 +28,8 @@ const TherapistBookingApproval = () => {
     const handleApproveBooking = async (bookingId) => {
         try {
             await axios.put(`http://localhost:3007/therapist/bookings/approve/${bookingId}`);
+            // Create notification
+            await axios.patch(`http://localhost:3007/therapist/notifications/${bookingId}`);
             // Refresh bookings after approval
             fetchBookings();
         } catch (error) {
@@ -40,7 +43,8 @@ const TherapistBookingApproval = () => {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="pending bookings table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow sx={{ backgroundColor: "grey", color: "white" }}>
+                            <TableCell></TableCell>
                             <TableCell>User ID</TableCell>
                             <TableCell>First Name</TableCell>
                             <TableCell>Email</TableCell>
@@ -51,10 +55,11 @@ const TherapistBookingApproval = () => {
                     <TableBody>
                         {pendingBookings.map((booking) => (
                             <TableRow key={booking._id}>
+                                <TableCell><FaceIcon /></TableCell>
                                 <TableCell>{booking.userId._id}</TableCell>
                                 <TableCell>{booking.userId.fname}</TableCell>
                                 <TableCell>{booking.userId.email}</TableCell>
-                                <TableCell>{new Date(booking.date).toLocaleString()}</TableCell>
+                                <TableCell>{booking.Bookingdate}</TableCell>
                                 <TableCell>
                                     <Button
                                         variant="contained"
@@ -78,7 +83,7 @@ const TherapistBookingApproval = () => {
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="approved bookings table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow sx={{ backgroundColor: "grey", color: "white" }}>
                             <TableCell>User ID</TableCell>
                             <TableCell>First Name</TableCell>
                             <TableCell>Email</TableCell>
@@ -91,7 +96,7 @@ const TherapistBookingApproval = () => {
                                 <TableCell>{booking.userId._id}</TableCell>
                                 <TableCell>{booking.userId.fname}</TableCell>
                                 <TableCell>{booking.userId.email}</TableCell>
-                                <TableCell>{new Date(booking.date).toLocaleString()}</TableCell>
+                                <TableCell>{booking.Bookingdate}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

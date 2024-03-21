@@ -8,6 +8,7 @@ const Diary = require('../model/DiaryEntry');
 const generateLogToken = require("../utils");
 const multer = require('multer');
 const path = require('path');
+const Notification = require('../model/Notificaiton')
 
 //User registration
 router.post("/newuser", async (req, res) => {
@@ -150,45 +151,76 @@ router.get('/therapists', async (req, res) => {
   }
 })
 
-router.post('/book', async (req, res) => {
+router.post('/book/:therapistId', async (req, res) => {
   try {
-    const { userId, therapistId, date, paymentDetails } = req.body;
+    console.log("Received booking request:", req.body); // Log the received request body
 
-    // Check if the user has already booked the therapist for the specified date
-    const existingBooking = await Booking.findOne({ userId, therapistId, date });
+    const { userId, therapistId, Bookingdate, time, sessionDuration, paymentDetails, cost, date, helpType } = req.body;
+    console.log("Booking details:", { userId, therapistId, Bookingdate, time, sessionDuration, paymentDetails, cost, date, helpType }); // Log extracted booking details
 
-    if (existingBooking) {
-      return res.status(400).json({ message: 'You have already booked this therapist for the selected date.' });
+    const datef = new Date(date);
+    datef.setHours(0, 0, 0, 0);
+    console.log("Formatted date:", datef); // Log the formatted date
+
+    if (!userId || !therapistId || !date || !time || !paymentDetails || !cost || !helpType) {
+      console.error("Missing required fields"); // Log error if required fields are missing
+      return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    // Check therapist availability - Count bookings for the specified date
-    const bookingCount = await Booking.countDocuments({ therapistId, date });
+    // Check if the user has already booked the therapist for the specified date and time
+    const existingBooking = await Booking.findOne({ userId, therapistId, Bookingdate, time });
 
-    // Adjust the maximum bookings allowed per day (e.g., 3)
-    const maxBookingsPerDay = 3;
+    if (existingBooking) {
+      console.error("Duplicate booking found:", existingBooking); // Log existing booking if found
+      return res.status(400).json({ message: 'You have already booked this therapist for the selected date and time.' });
+    }
 
-    // Check if the therapist has reached the maximum bookings for the specified date
-    if (bookingCount >= maxBookingsPerDay) {
-      return res.status(400).json({ message: 'Therapist fully booked for the selected date.' });
+    // Check therapist availability - Count bookings for the specified date and time
+    const bookingCount = await Booking.countDocuments({ therapistId, Bookingdate, time });
+    console.log("Booking count:", bookingCount); // Log the booking count
+
+    // Adjust the maximum bookings allowed per time slot (e.g., 3)
+    const maxBookingsPerTimeSlot = 3;
+
+    // Check if the therapist has reached the maximum bookings for the specified time slot
+    if (bookingCount >= maxBookingsPerTimeSlot) {
+      console.error("Therapist fully booked for the selected date and time."); // Log fully booked message
+      return res.status(400).json({ message: 'Therapist fully booked for the selected date and time.' });
     }
 
     // Therapist is available, proceed with booking
     const newBooking = new Booking({
       userId,
       therapistId,
-      date,
-      paymentDetails
+      Bookingdate,
+      helpType,
+      sessionDuration,
+      time,
+      paymentDetails,
+      cost
     });
 
     // Save the booking to the database
     await newBooking.save();
-    console.log('New booking:', newBooking);
+    console.log('New booking:', newBooking); // Log the newly created booking
     res.status(201).json({ message: 'Booking successful!' });
   } catch (error) {
     console.error('Error booking appointment:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+router.get('/booked/:userId', async (req, res) => {
+  console.log("Front end:", res.body);
+  try {
+    const userId = req.params.userId;
+    const bookings = await Booking.find({ userId }).populate('therapistId', 'fname');
+    res.json(bookings);
+  } catch (error) {
+    console.error("Error fetching user's bookings:", error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 //Diary-Entry
 // Configure Multer storage
@@ -204,7 +236,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Route to add a new diary entry
-router.post('/addentry',async (req, res) => {
+router.post('/addentry', async (req, res) => {
   const { userId, title, content, tags } = req.body;
   console.log('Request Body:', req.body); // Log the request body
   try {
@@ -225,7 +257,7 @@ router.post('/addentry',async (req, res) => {
 //View diary enteries
 router.get('/diaries/:userId', async (req, res) => {
   const userId = req.params.userId;
-  console.log("front end res:",res.body);
+  console.log("front end res:", res.body);
   if (!userId) {
     return res.status(400).json({ error: 'Missing userId parameter' });
   }
@@ -255,6 +287,40 @@ router.get('/diary/:diaryEntryId', async (req, res) => {
   } catch (error) {
     console.error('Error fetching diary entry:', error);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+//notification
+router.get('/notifications/:userId', async (req, res) => {
+  try {
+      // Fetch user ID from the route parameters
+      const userId = req.params.userId;
+
+      // Fetch notifications from the database for the specific user
+      const notifications = await Notification.find({ userId }).sort({ createdAt: -1 });
+
+      res.json(notifications);
+  } catch (error) {
+      console.error('Error fetching notifications:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.patch('/notifications/:notificationId/mark-as-read', async (req, res) => {
+  try {
+      const { notificationId } = req.params;
+
+      // Update the notification status to 'read' in the database
+      const updatedNotification = await Notification.findByIdAndUpdate(notificationId, { status: 'read' }, { new: true });
+
+      if (!updatedNotification) {
+          return res.status(404).json({ error: 'Notification not found' });
+      }
+
+      res.status(200).json({ message: 'Notification marked as read successfully', notification: updatedNotification });
+  } catch (error) {
+      console.error('Error marking notification as read:', error);
+      res.status(500).json({ error: 'Internal server error' });
   }
 });
 

@@ -99,7 +99,7 @@ const UserLayout = () => {
             text: "Bookings",
           },
           {
-            path: "/therapist",
+            path: "/notificationsx",
             icon: <NotificationsIcon sx={{ fontSize: 30 }} />,
             text: "Notifications",
           },
